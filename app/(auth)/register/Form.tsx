@@ -1,8 +1,9 @@
 import React, { useLayoutEffect, useState } from "react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
+// import { z } from "zod";
 
 type Inputs = {
   username: string;

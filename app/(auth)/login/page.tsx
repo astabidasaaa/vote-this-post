@@ -7,6 +7,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Form from "./Form";
 import LoadingPage from "@/components/Loading";
+import LoginForm from "./FormV2";
 
 type Inputs = {
   username: string;
@@ -14,7 +15,7 @@ type Inputs = {
 };
 
 const SignInPage = () => {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
 
   if (status === "authenticated") {
     redirect("/home");
@@ -22,15 +23,13 @@ const SignInPage = () => {
 
   if (status === "loading") return <LoadingPage />;
 
+  // console.log(session);
+
   return (
-    <main className="flex items-center justify-center md:h-screen">
-      {/* <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
-        <div className="flex h-20 w-full items-end rounded-lg bg-blue-500 p-3 md:h-36">
-          <div className="w-32 text-white md:w-36">MAtW</div>
-        </div>
-        <SignInBtn />
-      </div> */}
-      <Form />
+    <main className="w-screen h-screen flex flex-col justify-center items-center px-4 md:px-12 lg:px-24">
+      <div className="w-full max-w-[400px]">
+        <LoginForm />
+      </div>
     </main>
   );
 };

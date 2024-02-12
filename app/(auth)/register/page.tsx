@@ -21,12 +21,12 @@ const RegisterPage = () => {
   if (status === "loading") return <LoadingPage />;
 
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center px-24 py-20">
-      <div className="max-w-[400px]">
+    <main className="w-screen h-screen flex flex-col justify-center items-center px-4 md:px-12 lg:px-24">
+      <div className="w-full max-w-[400px]">
         <RegisterForm />
       </div>
       {/* <Form /> */}
-    </div>
+    </main>
   );
 };
 export default RegisterPage;

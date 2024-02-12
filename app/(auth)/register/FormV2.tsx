@@ -2,9 +2,12 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { Input } from "@/components/ui/input";
 
 import {
   Form,
@@ -16,7 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 const usernamePattern = /^[a-zA-Z0-9_.]{3,20}$/;
 const passwordPattern =
@@ -89,6 +92,8 @@ const formSchema = z
   });
 
 const RegisterForm = () => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -102,7 +107,7 @@ const RegisterForm = () => {
     const { username, password } = values;
 
     try {
-      const res = await fetch("/api/user", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,12 +122,18 @@ const RegisterForm = () => {
           redirect: true,
           callbackUrl: "/home",
         });
+
+        // await fetch("/api/auth/login", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({ username, password }),
+        // });
       }
-      // console.log("registered");
     } catch (err: any) {
       alert("Oops! Something went wrong. Please try again later");
     }
-    // console.log(JSON.stringify(form));
   };
 
   return (
@@ -133,7 +144,7 @@ const RegisterForm = () => {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel className="font-bold">Username</FormLabel>
               <FormControl>
                 <Input placeholder="Your username" {...field} />
               </FormControl>
@@ -149,7 +160,7 @@ const RegisterForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel className="font-bold">Password</FormLabel>
               <FormControl>
                 <Input type="password" placeholder="Your password" {...field} />
               </FormControl>
@@ -166,7 +177,7 @@ const RegisterForm = () => {
           name="confirm_password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm your password</FormLabel>
+              <FormLabel className="font-bold">Confirm your password</FormLabel>
               <FormControl>
                 <Input type="password" placeholder="Your password" {...field} />
               </FormControl>
@@ -176,12 +187,25 @@ const RegisterForm = () => {
         />
         <Button
           type="submit"
-          className="!mt-8"
+          className="w-full"
           disabled={form.formState.isSubmitting}
         >
-          Create account
+          {form.formState.isSubmitting ? (
+            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            "Create account"
+          )}
         </Button>
       </form>
+      <FormItem className="!mt-4">
+        <FormLabel className="font-bold">
+          Already have an account?{" "}
+          <Link href={"/login"} className="underline hover:no-underline">
+            {" "}
+            Log in
+          </Link>
+        </FormLabel>
+      </FormItem>
     </Form>
   );
 };

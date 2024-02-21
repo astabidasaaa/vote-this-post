@@ -54,11 +54,11 @@ const authOptions: NextAuthOptions = {
               user.password
             );
             if (isMatch) {
-              // return {
-              //   id: user._id.toString(),
-              //   username: user.name,
-              // };
-              return user;
+              return {
+                id: user._id.toString(),
+                name: user.username,
+              };
+              // return user;
               // return { username: user.username };
             } else {
               throw new Error("PASSWORD");
@@ -88,31 +88,32 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, account, profile }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
-      // if (user) {
-      // token.sub = null;
-      // token.user = user.name;
-      //   //   // token.expires = "1d";
-      // token.JWT = await new SignJWT({
-      //   username: user.name,
-      //   id: user.id,
-      // })
-      //   .setProtectedHeader({ alg: "HS256" })
-      //   .setIssuedAt()
-      //   .setExpirationTime("10s")
-      //   .sign(getJwtSecretKey());
-      // token = await jwt.sign(user, process.env.JWT_SIGNING_PRIVATE_KEY!, {
-      //   expiresIn: "10s",
-      // });
-      // const response = NextResponse.json(
-      //   { success: true },
-      //   { status: 200, headers: { "content-type": "application/json" } }
-      // );
-      // await response.cookies.set("token", token.JWT, {
-      //   httpOnly: true,
-      // });
-      // return response;
-      // token.name = user.name;
-      // }
+      if (user) {
+        // token.sub = null;
+        token.name = user.name;
+
+        //   //   // token.expires = "1d";
+        // token.JWT = await new SignJWT({
+        //   username: user.name,
+        //   id: user.id,
+        // })
+        //   .setProtectedHeader({ alg: "HS256" })
+        //   .setIssuedAt()
+        //   .setExpirationTime("10s")
+        //   .sign(getJwtSecretKey());
+        // token = await jwt.sign(user, process.env.JWT_SIGNING_PRIVATE_KEY!, {
+        //   expiresIn: "10s",
+        // });
+        // const response = NextResponse.json(
+        //   { success: true },
+        //   { status: 200, headers: { "content-type": "application/json" } }
+        // );
+        // await response.cookies.set("token", token.JWT, {
+        //   httpOnly: true,
+        // });
+        // return response;
+        // token.name = user.name;
+      }
 
       // if (account?.accessToken) {
       //   token.accessToken = account.accessToken;
@@ -125,8 +126,10 @@ const authOptions: NextAuthOptions = {
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token and user id from a provider.
       // session.expires = "7d";
-      // session.user = token.user as any;
-      session = token as any;
+      // session.user = token.name as any;
+      session.user!.name = token.name as any;
+      // session.expires = new Date().toISOString()
+      // session.user = user?.name;
       // session.user.
       // session.user = token.JWT as any;
 

@@ -5,7 +5,7 @@
 // import { Inter } from "next/font/google";
 import "./../globals.css";
 // import { NextAuthProvider } from "../../components/NextAuthProviders";
-import Navbar from "@/components/Navbar";
+// import Navbar from "@/components/Navbar";
 // import SignInBtn from "@/components/SignInBtn";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -24,18 +24,16 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   const { status } = useSession();
-  // const { status } = useSession({
-  //   required: true,
-  //   onUnauthenticated() {
-  //     redirect("/login");
-  //   },
-  // });
 
-  // if (status === "loading") return <LoadingPage />;
+  if (status === "loading") return <LoadingPage />;
+
+  if (status === "authenticated") {
+    redirect("/home");
+  }
+
   return (
-    <>
-      <Navbar />
-      {status === "loading" ? <LoadingPage /> : children}
-    </>
+    <main className="w-screen h-screen flex flex-col justify-center items-center px-4 md:px-12 lg:px-24">
+      <div className="w-full max-w-[400px]">{children}</div>
+    </main>
   );
 }

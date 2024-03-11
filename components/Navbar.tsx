@@ -10,7 +10,7 @@ const Navbar = () => {
   // console.log(data?.user);
 
   return (
-    <div className="w-screen flex flex-row justify-between items-center">
+    <div className="w-full flex flex-row justify-between items-center px-16">
       <div className="flex flex-row gap-4">
         <span>Navbar</span>
         {status !== "unauthenticated" && (

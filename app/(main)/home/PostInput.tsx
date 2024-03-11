@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusCircledIcon, ReloadIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
@@ -125,11 +128,11 @@ const PostInput = () => {
 
   return (
     <Card className="w-full max-w-xl">
-      <CardHeader>
-        {/* <CardTitle>Create your prompt</CardTitle> */}
-        {/* <CardDescription>Post your new prompt in one-click</CardDescription> */}
-      </CardHeader>
-      <CardContent>
+      {/* <CardHeader> */}
+      {/* <CardTitle>Create your prompt</CardTitle> */}
+      {/* <CardDescription>Post your new prompt in one-click</CardDescription> */}
+      {/* </CardHeader> */}
+      <CardContent className="pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid w-full items-center gap-4">
@@ -177,15 +180,20 @@ const PostInput = () => {
                       {/* <span>{field.value}</span> */}
                       {/* {form.getValues("postBody")} */}
                       {/* </div> */}
-                      {field.value.length <= 0 && (
+                      {/* {field.value.length <= 0 && (
                         <span className="text-muted-foreground absolute top-0 pointer-events-none select-none">
                           Ask your question
                         </span>
-                      )}
-                      <textarea
+                      )} */}
+                      {/* <textarea
                         {...field}
                         className="w-full resize-none focus:outline-none select-text whitespace-pre-wrap break-words min-h-[72px] max-h-[200px] pr-1"
-                      ></textarea>
+                      ></textarea> */}
+                      <Textarea
+                        placeholder="Ask your question"
+                        className="text-base border-none resize-none min-h-[80px]"
+                        {...field}
+                      />
                       {/* <Input
                         type="hidden"
                         placeholder="Your question"
